@@ -1,37 +1,74 @@
 package com.codename26.githubtestapp.ui.login;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.codename26.githubtestapp.GitHubApp;
+import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.codename26.githubtestapp.ui.list.ListActivity;
 import com.codename26.githubtestapp.R;
-import com.codename26.githubtestapp.data.remote.GitHubService;
-import com.codename26.githubtestapp.model.Repo;
 
-import java.util.ArrayList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
+public class LoginActivity extends MvpActivity implements LoginView {
 
-import static com.codename26.githubtestapp.GitHubApp.REPOS_LIST;
+    @BindView(R.id.loginProgressBar)
+    ProgressBar loginProgressBar;
+    @BindView(R.id.loginButton)
+    Button loginButton;
+    @BindView(R.id.editTextLogin)
+    EditText editTextLogin;
+    @BindView(R.id.editTextPassword)
+    EditText editTextPassword;
 
-public class LoginActivity extends AppCompatActivity {
+    @InjectPresenter
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+    }
+
+
+    @Override
+    public void showProgress() {
+        loginProgressBar.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.GONE);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
+    public void hideProgress() {
+        loginProgressBar.setVisibility(View.GONE);
+        loginButton.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSignIn(Bundle bundle) {
+        Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.loginButton)
+    public void submit(View view) {
+        String login = editTextLogin.getText().toString();
+        String password = editTextPassword.getText().toString();
+        loginPresenter.signIn(login, password);
+    }
+
+
 }
