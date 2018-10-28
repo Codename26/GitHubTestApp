@@ -23,25 +23,21 @@ public class GitHubApp extends Application {
     public static final String REPOS_LIST = "REPOS_LIST";
     private static final String BASE_URL = "https://api.github.com";
 
-    private String authToken;
-    private final String username = "codename26";
-    private final String password = "pbrv8S04215";
-    private Retrofit retrofit;
-    private static GitHubService gitHubService;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
-
         Timber.plant(new Timber.DebugTree());
+
+    }
+
+    public static GitHubService getGitHubService(String login, String password) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-// set your desired log level
+
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder.addInterceptor(logging);
         clientBuilder.connectionSpecs(Collections.singletonList(ConnectionSpec.MODERN_TLS));
-        authToken = Credentials.basic(username, password);
+        String authToken = Credentials.basic(login, password);
 
         Interceptor headerAuthorizationInterceptor = new Interceptor() {
             @Override
@@ -55,16 +51,12 @@ public class GitHubApp extends Application {
 
         clientBuilder.addInterceptor(headerAuthorizationInterceptor);
 
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(clientBuilder.build())
                 .build();
-        gitHubService = retrofit.create(GitHubService.class);
-    }
-
-    public static GitHubService getGitHubService(){
-        return gitHubService;
+        return retrofit.create(GitHubService.class);
     }
 
 

@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.list.ListActivity">
 
+    <FrameLayout
+        android:id="@+id/list_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reposListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layoutManager="LinearLayoutManager" />
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

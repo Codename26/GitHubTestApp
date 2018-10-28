@@ -34,13 +34,11 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
     private void performLoginAttempt(String login, String password) {
 
         getViewState().showProgress();
-        GitHubService gitHubService = GitHubApp.getGitHubService();
+        GitHubService gitHubService = GitHubApp.getGitHubService(login, password);
 
         gitHubService.getRepos()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(repo -> Timber.d("repos: " + repo))
-                .doOnError(e -> Timber.d("error: " + e))
                 .subscribe(new Observer<ArrayList<Repo>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -49,15 +47,16 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
 
                     @Override
                     public void onNext(ArrayList<Repo> repos) {
+                        getViewState().hideProgress();
                         Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(REPOS_LIST ,repos);
-                        startActivity(new Intent(LoginActivity.this, ListActivity.class));
-
+                        bundle.putParcelableArrayList(REPOS_LIST, repos);
+                        getViewState().onSignIn(bundle);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(LoginActivity.this, "Login failed. Please, check your credentials", Toast.LENGTH_SHORT).show();
+                        getViewState().hideProgress();
+                        getViewState().showErrorMessage("Server Error: " + e.getMessage());
                     }
 
                     @Override

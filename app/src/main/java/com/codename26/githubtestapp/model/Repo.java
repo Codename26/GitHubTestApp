@@ -16,6 +16,9 @@ public class Repo implements Parcelable {
     @SerializedName("html_url")
     @Expose
     private String html_url;
+    @SerializedName("description")
+    @Expose
+    private String description;
 
     public String getId() {
         return id;
@@ -41,6 +44,14 @@ public class Repo implements Parcelable {
         this.html_url = html_url;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     @Override
     public int describeContents() {
@@ -52,6 +63,7 @@ public class Repo implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.html_url);
+        dest.writeString(this.description);
     }
 
     public Repo() {
@@ -61,6 +73,7 @@ public class Repo implements Parcelable {
         this.id = in.readString();
         this.name = in.readString();
         this.html_url = in.readString();
+        this.description = in.readString();
     }
 
     public static final Creator<Repo> CREATOR = new Creator<Repo>() {
