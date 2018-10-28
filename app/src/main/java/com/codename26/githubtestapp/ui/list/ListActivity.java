@@ -1,7 +1,9 @@
-package com.codename26.githubtestapp;
+package com.codename26.githubtestapp.ui.list;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.codename26.githubtestapp.R;
 
 public class ListActivity extends AppCompatActivity {
 

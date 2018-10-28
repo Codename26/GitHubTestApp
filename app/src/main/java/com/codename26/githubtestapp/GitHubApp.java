@@ -24,7 +24,7 @@ public class GitHubApp extends Application {
     private static final String BASE_URL = "https://api.github.com";
 
     private String authToken;
-    private final String username = "codename2611";
+    private final String username = "codename26";
     private final String password = "pbrv8S04215";
     private Retrofit retrofit;
     private static GitHubService gitHubService;
