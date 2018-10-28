@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">GitHubTestApp</string>
+    <string name="save">save</string>
+    <string name="sorry_you_have_no_repositories">Sorry, you have no repositories</string>
+    <string name="github_test_app">GitHub Test App</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="enter">Enter</string>
+    <string name="edit">Edit</string>
+    <string name="name">Name:</string>
+    <string name="description">Description:</string>
+    <string name="id">ID:</string>
+    <string name="full_name">Full name:</string>
+    <string name="name">Name:</string>
+    <string name="description">Description:</string>
+    <string name="id1">Id:</string>
 </resources>
