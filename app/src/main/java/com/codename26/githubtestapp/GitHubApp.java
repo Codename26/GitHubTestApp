@@ -21,6 +21,7 @@ import timber.log.Timber;
 public class GitHubApp extends Application {
 
     public static final String REPOS_LIST = "REPOS_LIST";
+    public static final String REPO = "REPO";
     private static final String BASE_URL = "https://api.github.com";
 
     @Override
